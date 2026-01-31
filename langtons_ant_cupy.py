@@ -254,7 +254,7 @@ u'''
 （逆に時間反転すると減少していく）ということを示したかったので、
 
 ```math
-H = - ( p_b \log_2 p_b + p_w \log_2 p_w )
+H = - ( p_b log_2 p_b + p_w log_2 p_w )
 ```
 
 としました（ここで $p_b$ は黒いセルの割合、$p_w$ は白いセルの割合）:
@@ -297,17 +297,20 @@ def update(count : int, max_count : int, reverse_count : int,
            line : matplotlib.lines.Line2D,
            ax2 : plt.axis,
            entropy_sequence_bw : list[float]) -> list[matplotlib.artist.Artist]:
-    sys.stdout.write('\r{} / {}'.format(count, max_count))
+    if count % 10 == 0:
+        sys.stdout.write('\r{} / {}'.format(count, max_count))
     if reverse_count >= 0 and count < reverse_count:
         update_field(field)
     else:
         rev_update_field(field)
+    if count == reverse_count:
+        ax2.axvline(reverse_count, color = 'r')
     img.set_data(cp.asnumpy(field))
     entropy_bw = calc_entropy_bw(field)
     entropy_sequence_bw[count] = entropy_bw
     line.set_data(range(count + 1),
                   entropy_sequence_bw[:count + 1])
-    ax2.set_xlim(0, count)
+    ax2.set_xlim(0, count + 1)
     ax2.set_ylim(0, 1)
     return [img, line]
 def generate_animation(
@@ -322,14 +325,15 @@ def generate_animation(
     a = animation.FuncAnimation(
         fig,
         update,
-        fargs = (max_count, reverse_count,
-                 field, img, line, ax2, entropy_sequence_bw),
+        fargs = (max_count, reverse_count, field,
+                 img, line, ax2, entropy_sequence_bw),
         interval = 1,
         blit = True,
         frames = max_count,
         repeat = False)
     print('saving...')
     a.save(target, writer = "ffmpeg")
+    print(f'{max_count}')
 
 def simulate(field : cp.ndarray,
              max_count : int,
@@ -338,13 +342,12 @@ def simulate(field : cp.ndarray,
              ax2 : plt.axis) -> None:
     img = ax1.imshow(cp.asnumpy(field), cmap='Greys', interpolation='nearest')
     (line,) = ax2.plot([], [])
-    print(type(img))
     entropy_sequence_bw = [0.0] * max_count
-    for i in range(max_count):
-        update(i, max_count, reverse_count, field,
-               img, line, ax2,
-               entropy_sequence_bw)
+    for count in range(max_count):
+        update(count, max_count, reverse_count, field,
+               img, line, ax2, entropy_sequence_bw)
         plt.pause(0.001)
+    print(f'{max_count}')
     plt.show()
 
 parser = argparse.ArgumentParser()
