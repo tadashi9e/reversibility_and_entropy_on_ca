@@ -123,7 +123,7 @@ fig, (ax1, ax2) = plt.subplots(
     2,1, gridspec_kw={'height_ratios': [5, 1]},
     tight_layout = True)
 ax1.set_ylabel('Space')
-ax1.imshow(result[:n].swapaxes(0,1).get(), cmap = 'binary',
+ax1.imshow(result.swapaxes(0,1).get(), cmap = 'binary',
            interpolation = 'nearest', aspect = 'auto')
 ax2.set_ylabel('Entropy')
 ax2.set_xlabel('Time')
