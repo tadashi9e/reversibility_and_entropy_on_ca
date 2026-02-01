@@ -7,6 +7,8 @@ leveraging a lattice gas method.
 
 Displays cell colors and plots historical entropies.
 
+![Figure](https://github.com/tadashi9e/reversibility_and_entropy_on_ca/blob/main/Figure_1.png?raw=true)
+
 ## langtons_ant_cupy_1d.py
 
 Essentially the same as above, but with 1D rules.
