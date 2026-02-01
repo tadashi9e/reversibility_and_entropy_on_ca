@@ -333,7 +333,7 @@ def generate_animation(
         repeat = False)
     print('saving...')
     a.save(target, writer = "ffmpeg")
-    print(f'{max_count}')
+    print(f'\r{max_count}')
 
 def simulate(field : cp.ndarray,
              max_count : int,
@@ -347,7 +347,7 @@ def simulate(field : cp.ndarray,
         update(count, max_count, reverse_count, field,
                img, line, ax2, entropy_sequence_bw)
         plt.pause(0.001)
-    print(f'{max_count}')
+    print(f'\r{max_count}')
     plt.show()
 
 parser = argparse.ArgumentParser()
