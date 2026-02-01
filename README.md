@@ -17,3 +17,5 @@ Essentially the same as above, but with 1D rules.
   and continue moving straight.
 - When an ant is on a black cell, change the cell color to white,
   reverse the ant's direction, and continue moving straight.
+
+![Figure2](https://github.com/tadashi9e/reversibility_and_entropy_on_ca/blob/main/Figure_2.png?raw=true)
