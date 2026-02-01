@@ -127,6 +127,7 @@ ax1.imshow(result.swapaxes(0,1).get(), cmap = 'binary',
            interpolation = 'nearest', aspect = 'auto')
 ax2.set_ylabel('Entropy')
 ax2.set_xlabel('Time')
+ax2.set_xmargin(0)
 ax2.plot(result_entropy)
 plt.show()
 print('done')
